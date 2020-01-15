@@ -50,6 +50,7 @@ try:
       num_of_right_red_pix = 0
       num_of_right_yellow_pix = 0
       num_of_left_yellow_pix = 0
+      print(state[1])
       numpy_image = state[0] * 255
       numpy_image = numpy_image.astype('uint8')
       for x in range(len(numpy_image)):
