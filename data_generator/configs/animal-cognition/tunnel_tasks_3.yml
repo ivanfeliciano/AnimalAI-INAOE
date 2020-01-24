@@ -1,0 +1,26 @@
+!ArenaConfig
+arenas:
+  0: !Arena
+    blackouts: []
+    items:
+    - !Item
+      colors: []
+      name: CylinderTunnel
+      positions:
+      - !Vector3
+        x: 13
+        y: 0
+        z: 20
+      rotations: []
+      sizes: []
+    - !Item
+      colors: []
+      name: GoodGoal
+      positions:
+      - !Vector3
+        x: 13
+        y: 0
+        z: 20
+      rotations: []
+      sizes: []
+    t: 250
