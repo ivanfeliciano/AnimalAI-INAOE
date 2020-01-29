@@ -1,0 +1,26 @@
+<annotation>
+	<folder>basic_food_and_obstacles</folder>
+	<filename>3-3-3_1.png</filename>
+	<path>/home/ivan/Documentos/AnimalAI-INAOE/data_generator/datasets/basic_food_and_obstacles/3-3-3_1.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>300</width>
+		<height>300</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>wall</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>108</xmin>
+			<ymin>84</ymin>
+			<xmax>140</xmax>
+			<ymax>159</ymax>
+		</bndbox>
+	</object>
+</annotation>
