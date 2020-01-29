@@ -54,7 +54,7 @@ def init_environment(env_path, docker_target_name, worker_id, seed):
     docker_training = docker_target_name is not None
 
     return UnityEnvironment(
-        n_arenas=4,             # Change this to train on more arenas
+        n_arenas=1,             # Change this to train on more arenas
         file_name=env_path,
         worker_id=worker_id,
         seed=seed,

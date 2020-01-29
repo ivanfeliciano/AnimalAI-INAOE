@@ -40,6 +40,7 @@ class TrainerController(object):
         :param external_brains: dictionary of external brain names to BrainInfo objects.
         :param training_seed: Seed to use for Numpy and Tensorflow random number generation.
         """
+        print("CREO MI ENTRENADOR")
 
         self.model_path = model_path
         self.summaries_dir = summaries_dir
@@ -215,6 +216,7 @@ class TrainerController(object):
                        for k, t in self.trainers.items()]) \
                   or not self.train_model:
                 new_info = self.take_step(env, curr_info)
+                print(new_info)
                 self.global_step += 1
                 if self.global_step % self.save_freq == 0 and self.global_step != 0 \
                         and self.train_model:

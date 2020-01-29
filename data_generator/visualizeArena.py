@@ -21,13 +21,12 @@ def init_environment(env_path, docker_target_name, no_graphics, worker_id, seed)
     docker_training = docker_target_name is not None
 
     return UnityEnvironment(
-        n_arenas=1,
+        n_arenas=4,
         file_name=env_path,
         worker_id=worker_id,
         seed=seed,
         docker_training=docker_training,
         play=True,
-        resolution=84
     )
 
 
@@ -46,6 +45,7 @@ env.reset(arenas_configurations =arena_config_in)
 
 try:
     while True:
-        continue
+        print("x"*20)
+        print(env._get_state())
 except KeyboardInterrupt:
     env.close()
