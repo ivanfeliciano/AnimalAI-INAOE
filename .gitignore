@@ -1,4 +1,5 @@
 env/*
+env_modified/*
 !env/README.md
 examples/submission/test_submission/env/*
 !examples/submission/test_submission/env/README.md
