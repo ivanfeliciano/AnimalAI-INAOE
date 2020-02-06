@@ -1,0 +1,75 @@
+!ArenaConfig
+arenas:
+  0: !Arena
+    blackouts: []
+    items:
+    - !Item
+      colors: []
+      name: GoodGoal
+      positions:
+      - !Vector3
+        x: 1.5
+        y: 0
+        z: 9.5
+      rotations: []
+      sizes:
+      - !Vector3
+        x: 1
+        y: 1
+        z: 1
+    - !Item
+      colors: []
+      name: GoodGoalMulti
+      positions:
+      - !Vector3
+        x: 8.5
+        y: 0
+        z: 16.5
+      - !Vector3
+        x: 24.5
+        y: 0
+        z: 8.5
+      rotations: []
+      sizes:
+      - !Vector3
+        x: 1
+        y: 1
+        z: 1
+      - !Vector3
+        x: 1
+        y: 1
+        z: 1
+    - !Item
+      colors: []
+      name: BadGoal
+      positions:
+      - !Vector3
+        x: 5.5
+        y: 0
+        z: 36.5
+      - !Vector3
+        x: 8.5
+        y: 0
+        z: 2.5
+      rotations: []
+      sizes:
+      - !Vector3
+        x: 1
+        y: 1
+        z: 1
+      - !Vector3
+        x: 1
+        y: 1
+        z: 1
+    - !Item
+      colors: []
+      name: Agent
+      positions:
+      - !Vector3
+        x: 36.5
+        y: 0
+        z: 2.5
+      rotations:
+      - 270
+      sizes: []
+    t: 250
