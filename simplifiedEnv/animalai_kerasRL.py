@@ -18,6 +18,8 @@ from rl.callbacks import FileLogger, ModelIntervalCheckpoint
 from animalai.envs.gym.environment import AnimalAIEnv
 from animalai.envs.arena_config import ArenaConfig
 
+from assisted_agent import AssistedAgent
+
 INPUT_SHAPE = (84, 84, 3)
 WINDOW_LENGTH = 1
 worker_id = random.randint(1, 100)
@@ -86,7 +88,7 @@ processor = AnimalAIProcessor()
 policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05,
                               nb_steps=1000000)
 
-dqn = DQNAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
+dqn = AssistedAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
                processor=processor, nb_steps_warmup=50000, gamma=.99, target_model_update=10000,
                train_interval=4, delta_clip=1.)
 dqn.compile(Adam(lr=.00025), metrics=['mae'])
@@ -95,7 +97,7 @@ if args.mode == 'train':
     weights_filename = './models/dqn_{}_weights.h5f'.format(ENV_NAME)
     checkpoint_weights_filename = './models/dqn_' + ENV_NAME + '_weights_{step}.h5f'
     log_filename = './models/dqn_{}_log.json'.format(ENV_NAME)
-    callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=1000)]
+    callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=100)]
     callbacks += [FileLogger(log_filename, interval=100)]
     dqn.fit(env, callbacks=callbacks, nb_steps=10000, log_interval=100)
 

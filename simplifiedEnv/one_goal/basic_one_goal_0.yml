@@ -8,9 +8,9 @@ arenas:
       name: GoodGoal
       positions:
       - !Vector3
-        x: 21.5
+        x: 20.5
         y: 0
-        z: 5.5
+        z: 20.5
       rotations: []
       sizes:
       - !Vector3
