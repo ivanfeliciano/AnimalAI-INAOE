@@ -1,5 +1,6 @@
 env/*
 env_modified/*
+env90deg/*
 !env/README.md
 examples/submission/test_submission/env/*
 !examples/submission/test_submission/env/README.md
@@ -15,3 +16,5 @@ build/
 dist/
 *.egg-info*
 *.eggs*
+*.h5f
+

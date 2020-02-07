@@ -25,7 +25,7 @@ tf.train.AdamOptimizer.learning_rate = 0.0000625
 tf.train.AdamOptimizer.epsilon = 0.00015
 
 create_agent.agent_name = 'rainbow'
-Runner.num_iterations = 1
+Runner.num_iterations = 200
 Runner.training_steps = 250000  # agent steps
 Runner.evaluation_steps = 125000  # agent steps
 Runner.max_steps_per_episode = 27000  # agent steps

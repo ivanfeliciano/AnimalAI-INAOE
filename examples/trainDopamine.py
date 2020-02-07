@@ -20,6 +20,7 @@ def create_env_fn():
                       arenas_configurations=arena_config_in,
                       docker_training=False,
                       retro=True)
+    print("all good create_env_fn")
     return env
 
 
@@ -31,4 +32,4 @@ run_experiment.load_gin_configs(gin_files, None)
 runner = run_experiment.Runner(base_dir=base_dir,
                                create_agent_fn=create_agent_fn,
                                create_environment_fn=create_env_fn)
-runner.run_experiment()
+# runner.run_experiment()

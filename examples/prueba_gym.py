@@ -6,7 +6,7 @@ import cv2
 
 env_path = '../env/AnimalAI'
 worker_id = random.randint(1, 100)
-arena_config_in = ArenaConfig('ordered_configs/avoid_red/1-25-1.yml')
+arena_config_in = ArenaConfig('configs/1-Food.yaml')
 
 env = AnimalAIEnv(environment_filename=env_path,
                   worker_id=worker_id,
@@ -23,7 +23,7 @@ SKIPPED_FRAMES = 10
 state = env.reset()
 print(state[0].shape)
 print(state[0].ndim)
-print(env.action_space.sample())
+print(tuple(env.action_space.sample()))
 numpy_image = state[0] * 255
 numpy_image = numpy_image.astype('uint8')
 cv_image = cv2.cvtColor(numpy_image, cv2.COLOR_BGR2RGB)
