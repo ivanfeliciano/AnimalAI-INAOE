@@ -19,6 +19,7 @@ from animalai.envs.gym.environment import AnimalAIEnv
 from animalai.envs.arena_config import ArenaConfig
 
 from assisted_agent import AssistedAgent
+from assisted_policy import AssistedPolicy
 
 INPUT_SHAPE = (84, 84, 3)
 WINDOW_LENGTH = 1
@@ -48,14 +49,14 @@ class AnimalAIProcessor(Processor):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--mode', choices=['train', 'test'], default='train')
+parser.add_argument('--learning', choices=['causal', 'dqn'], default='dqn')
 parser.add_argument('--weights', type=str, default=None)
 parser.add_argument('--config-file', type=str, default=None)
 args = parser.parse_args()
 arena_config_in = ArenaConfig(args.config_file)
 
-# Get the environment and extract the number of ENV_NAME
 ENV_NAME = "AnimalAIEnv"
-env = AnimalAIEnv(environment_filename='../env90deg/AnimalAILinux',
+env = AnimalAIEnv(environment_filename='../env_test/AnimalAILinux',
                   worker_id=worker_id,
                   n_arenas=1,
                   arenas_configurations=arena_config_in,
@@ -85,27 +86,33 @@ print(model.summary())
 memory = SequentialMemory(limit=1000000, window_length=WINDOW_LENGTH)
 processor = AnimalAIProcessor()
 
-policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05,
-                              nb_steps=1000000)
 
-dqn = AssistedAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
-               processor=processor, nb_steps_warmup=50000, gamma=.99, target_model_update=10000,
-               train_interval=4, delta_clip=1.)
+policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05,
+                              nb_steps=10000)
+
+if args.learning == 'causal':
+    dqn = AssistedAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
+                   processor=processor, nb_steps_warmup=1000, gamma=.99, target_model_update=500,
+                   train_interval=4, delta_clip=1.)
+else:
+    dqn = DQNAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
+                   processor=processor, nb_steps_warmup=1000, gamma=.99, target_model_update=500,
+                   train_interval=4, delta_clip=1.)
 dqn.compile(Adam(lr=.00025), metrics=['mae'])
 
 if args.mode == 'train':
-    weights_filename = './models/dqn_{}_weights.h5f'.format(ENV_NAME)
-    checkpoint_weights_filename = './models/dqn_' + ENV_NAME + '_weights_{step}.h5f'
-    log_filename = './models/dqn_{}_log.json'.format(ENV_NAME)
-    callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=100)]
-    callbacks += [FileLogger(log_filename, interval=100)]
-    dqn.fit(env, callbacks=callbacks, nb_steps=10000, log_interval=100)
+    weights_filename = './models/{}_{}_weights.h5f'.format(args.learning, ENV_NAME)
+    checkpoint_weights_filename = './models/{}_'.format(args.learning) + ENV_NAME + '_weights_{step}.h5f'
+    log_filename = './models/{}_{}_log.json'.format(args.learning, ENV_NAME)
+    callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=1000)]
+    callbacks += [FileLogger(log_filename, interval=1000)]
+    dqn.fit(env, callbacks=callbacks, nb_steps=10000, log_interval=1000)
 
     dqn.save_weights(weights_filename, overwrite=True)
 
-    dqn.test(env, nb_episodes=1, visualize=True)
+    dqn.test(env, nb_episodes=25, visualize=True)
 elif args.mode == 'test':
-    weights_filename = './models/dqn_{}_weights.h5f'.format(ENV_NAME)
+    weights_filename = './models/{}_{}_weights.h5f'.format(args.learning, ENV_NAME)
     if args.weights:
         weights_filename = args.weights
     dqn.load_weights(weights_filename)
