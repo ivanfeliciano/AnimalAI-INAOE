@@ -20,6 +20,7 @@ from animalai.envs.arena_config import ArenaConfig
 
 from assisted_agent import AssistedAgent
 from assisted_policy import AssistedPolicy
+from dqn_video import DQNAgentVideoRecording
 
 INPUT_SHAPE = (84, 84, 3)
 WINDOW_LENGTH = 1
@@ -56,7 +57,7 @@ args = parser.parse_args()
 arena_config_in = ArenaConfig(args.config_file)
 
 ENV_NAME = "AnimalAIEnv"
-env = AnimalAIEnv(environment_filename='../env_test/AnimalAILinux',
+env = AnimalAIEnv(environment_filename='../env/AnimalAI',
                   worker_id=worker_id,
                   n_arenas=1,
                   arenas_configurations=arena_config_in,
@@ -95,7 +96,7 @@ if args.learning == 'causal':
                    processor=processor, nb_steps_warmup=1000, gamma=.99, target_model_update=500,
                    train_interval=4, delta_clip=1.)
 else:
-    dqn = DQNAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
+    dqn = DQNAgentVideoRecording(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
                    processor=processor, nb_steps_warmup=1000, gamma=.99, target_model_update=500,
                    train_interval=4, delta_clip=1.)
 dqn.compile(Adam(lr=.00025), metrics=['mae'])
@@ -110,10 +111,11 @@ if args.mode == 'train':
 
     dqn.save_weights(weights_filename, overwrite=True)
 
-    dqn.test(env, nb_episodes=25, visualize=True)
+    dqn.test(env, nb_episodes=10, visualize=True, video_name='{}_video_training.avi'.format(args.learning))
 elif args.mode == 'test':
     weights_filename = './models/{}_{}_weights.h5f'.format(args.learning, ENV_NAME)
     if args.weights:
         weights_filename = args.weights
     dqn.load_weights(weights_filename)
-    dqn.test(env, nb_episodes=10, visualize=True)
+    # todo una clase dqn donde guarde los test en videos
+    dqn.test(env, nb_episodes=1, visualize=True, video_name='{}_video_test_e.avi'.format(args.learning))

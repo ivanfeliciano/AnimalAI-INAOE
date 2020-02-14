@@ -2,7 +2,7 @@ import random
 import numpy as np
 import cv2
 
-from rl.agents.dqn import DQNAgent
+from dqn_video import DQNAgentVideoRecording
 
 
 
@@ -17,7 +17,7 @@ def count_pixels(img, colour):
 				return True
 	return False
 
-class AssistedAgent(DQNAgent):
+class AssistedAgent(DQNAgentVideoRecording):
 	"""docstring for AssistedAgent"""
 	def forward(self, observation):
 		# Select an action.
