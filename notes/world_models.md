@@ -81,6 +81,27 @@ Se aproxima p(z) con una distribución de mezclas Gaussianas, y se entrena la RN
 salida la distribución de probabilidad del siguiente vector latente z<sub>t+1</sub> dado la información
 del paso y del presente disponible.
 
-Más específicamente, la RNN modela P(z<sub> t + 1</sub>)
+Más específicamente, la RNN modela P(z<sub> t + 1</sub> | a<sub>t</sub>, z<sub>t</sub>, h<sub>t</sub>),
+donde a<sub>t</sub> es la acción tomada en el tiempo *t* y *h*<sub>t</sub> es el estado oculto 
+de la RNN en el tiempo *t*. Durante el muestreo, se puede ajustar un parámetro de *temperatura* T para
+controlar la incertidumbre del modelo de control.
+
+Este enfoque se conoce como *red de desidad de mezcla* (MDN) combinada con una RNN (MDN-RNN).
+
+### Modelo controlador (C)
+
+El modelo controlador C es el responsable de determinar el curso de las acciones que se toman
+para maximizar la recompensa acumulada esperada del agente durante un rollout del ambiente.
+C se entrea de manera separada de V y M, tal que la mayoría de la complejidad del agente 
+resida en el modelo del mundo (V y M).
+
+C es una modelo lineal simple de una sola capa que mapea z<sub>t</sub> y h<sub>t</sub> directamente
+a una acción a<sub>t</sub> en cada pasao de tiempo:
+
+a<sub>t</sub> = W<sub>c</sub> [z<sub>t</sub> h<sub>t</sub>] + b<sub>c</sub>
+
+En este modelo lineal, W<sub>c</sub> y b<sub>c</sub> son matricesd de pesos y el vector de sesgo que 
+mapean el vector [z<sub>t</sub> h<sub>t</sub>] al vector de salida a<sub>t</sub>.
+
 
 
